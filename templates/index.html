@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cyber Security Toolkit</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
     <h1>Cyber Security Assessment Toolkit</h1>
-    <p>Welcome! This dashboard will host all five security modules.</p>
-</body>
-</html>
+    <p class="lead">Welcome! This dashboard will host all five security modules.</p>
+    <a href="/password" class="btn btn-primary">Password Analyzer</a>
+{% endblock %}
