@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from modules.password_analyser import analyze_password
+from modules.hash_generator import generate_hashes, generate_file_hashes
 
 
 app = Flask(__name__)
@@ -16,6 +17,27 @@ def password_page():
         password = request.form.get("password", "")
         result = analyze_password(password)
     return render_template("password.html", result = result)
+
+@app.route("/hash", methods = ["GET", "POST"])
+def hash_page():
+    result = None
+    input_text = ""
+    filename = None
+
+    if request.method == "POST":
+        uploaded_file = request.files.get("file")
+
+        if uploaded_file and uploaded_file.filename:
+            filename = uploaded_file.filename
+            file_bytes = uploaded_file.read()
+            result = generate_file_hashes(file_bytes)
+        else:
+            input_text = request.form.get("text", "")
+            if input_text:
+                result = generate_hashes(input_text)
+
+    return render_template("hash.html", result=result, input_text=input_text, filename=filename)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

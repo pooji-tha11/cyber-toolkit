@@ -240,7 +240,7 @@ COMMON_PASSWORDS = [
   "marshall1",
   "fireball1",
   "mymelody1",
-  "summer12"
+  "abcdefgh"
 
 ]
 

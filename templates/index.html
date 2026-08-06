@@ -2,8 +2,13 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
     <h1 class="text-3xl font-bold mb-2">Cyber Security Assessment Toolkit</h1>
-    <p class="text-slate-400 mb-6">Welcome! This dashboard will host all five security modules.</p>
-    <a href="/password" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
-        Password Analyzer
-    </a>
+    <p class="text-slate-400 mb-6">Welcome! You can access all the modules below.</p>
+    <div class="space-x-3">
+        <a href="/password" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+            Password Analyzer
+        </a>
+        <a href="/hash" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+            Hash Generator
+        </a>
+    </div>
 {% endblock %}

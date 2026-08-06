@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Hash Generator{% endblock %}
+{% block content %}
+    <h1 class="text-3xl font-bold mb-6">Cryptographic Hash Generator</h1>
+
+   <form method="POST" enctype="multipart/form-data" class="mb-6 space-y-4">
+    <div>
+        <label for="text" class="block text-sm font-medium text-slate-300 mb-2">
+            Enter text to hash:
+        </label>
+        <input type="text" id="text" name="text"
+               class="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-white
+                      focus:outline-none focus:ring-2 focus:ring-blue-600">
+    </div>
+
+    <p class="text-slate-500 text-sm">— OR —</p>
+
+    <div>
+        <label for="file" class="block text-sm font-medium text-slate-300 mb-2">
+            Upload a file to hash:
+        </label>
+        <input type="file" id="file" name="file"
+               class="w-full text-slate-300 bg-slate-800 border border-slate-700 rounded-md px-3 py-2">
+    </div>
+
+    <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+        Generate Hashes
+    </button>
+</form>
+    {% if result %}
+    <div class="bg-slate-800 border border-slate-700 rounded-lg p-5 mb-6 space-y-4">
+        {% if filename %}
+            <p class="text-slate-400">File: <span class="text-white">{{ filename }}</span></p>
+        {% else %}
+            <p class="text-slate-400">Input: <span class="text-white">{{ input_text }}</span></p>
+        {% endif %}
+
+            <div>
+                <p class="text-red-400 font-semibold text-sm mb-1">MD5 (legacy — not secure)</p>
+                <p class="font-mono text-sm break-all bg-slate-900 rounded p-2">{{ result.md5 }}</p>
+            </div>
+
+            <div>
+                <p class="text-red-400 font-semibold text-sm mb-1">SHA-1 (legacy — not secure)</p>
+                <p class="font-mono text-sm break-all bg-slate-900 rounded p-2">{{ result.sha1 }}</p>
+            </div>
+
+            <div>
+                <p class="text-green-400 font-semibold text-sm mb-1">SHA-256 (current standard)</p>
+                <p class="font-mono text-sm break-all bg-slate-900 rounded p-2">{{ result.sha256 }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <a href="/" class="text-slate-400 hover:text-white underline">Back to Dashboard</a>
+{% endblock %}
