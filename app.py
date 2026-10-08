@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from modules.password_analyser import analyze_password
 from modules.hash_generator import generate_hashes, generate_file_hashes
 from modules.url_analyzer import analyze_url
+from modules.port_scanner import scan_ports
 
 app = Flask(__name__)
 
@@ -46,6 +47,20 @@ def url_page():
         input_url = request.form.get("url", "")
         result = analyze_url(input_url)
     return render_template("url.html", result=result, input_url=input_url)
+
+@app.route("/ports", methods=["GET", "POST"])
+def ports_page():
+    result = None
+    if request.method == "POST":
+        target = request.form.get("target", "").strip()
+        try:
+            start_port = int(request.form.get("start_port", ""))
+            end_port = int(request.form.get("end_port", ""))
+            result = scan_ports(target, start_port, end_port)
+        except ValueError:
+            result = {"error": "Ports must be whole numbers.",
+                      "target": target, "open_ports": [], "scanned": 0}
+    return render_template("ports.html", result=result)
 
 if __name__ == '__main__':
     app.run(debug=True)

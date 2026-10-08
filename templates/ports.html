@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Port Scanner{% endblock %}
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Network Port Scanner</h1>
+
+    <div class="bg-yellow-900/40 border border-yellow-700 text-yellow-200 rounded-md p-4 mb-6 text-sm">
+        <strong>Legal notice:</strong> Only scan systems you own or have explicit written permission to test.
+        This version is restricted to localhost.
+    </div>
+
+    <form method="POST" class="mb-6 space-y-4">
+        <div>
+            <label for="target" class="block text-sm font-medium text-slate-300 mb-2">Target:</label>
+            <input type="text" id="target" name="target" value="127.0.0.1" required
+                   class="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-white
+                          focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div class="flex gap-4">
+            <div class="flex-1">
+                <label for="start_port" class="block text-sm font-medium text-slate-300 mb-2">Start port:</label>
+                <input type="number" id="start_port" name="start_port" value="1" required
+                       class="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-white
+                              focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+            <div class="flex-1">
+                <label for="end_port" class="block text-sm font-medium text-slate-300 mb-2">End port:</label>
+                <input type="number" id="end_port" name="end_port" value="1024" required
+                       class="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-white
+                              focus:outline-none focus:ring-2 focus:ring-blue-600">
+            </div>
+        </div>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+            Scan
+        </button>
+    </form>
+
+    {% if result %}
+        <div class="bg-slate-800 border border-slate-700 rounded-lg p-5 mb-6">
+            {% if result.error %}
+                <p class="text-red-400">{{ result.error }}</p>
+            {% else %}
+                <p class="text-slate-400 mb-3">
+                    Target: <span class="text-white">{{ result.target }}</span> |
+                    Ports scanned: <span class="text-white">{{ result.scanned }}</span> |
+                    Open: <span class="text-white">{{ result.open_ports|length }}</span>
+                </p>
+                {% if result.open_ports %}
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="text-slate-400 border-b border-slate-700">
+                                <th class="py-2">Port</th>
+                                <th class="py-2">Likely service</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in result.open_ports %}
+                            <tr class="border-b border-slate-700/50">
+                                <td class="py-2 font-mono text-green-400">{{ item.port }}</td>
+                                <td class="py-2 text-slate-300">{{ item.service }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-slate-300">No open ports found in this range.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <a href="/" class="text-slate-400 hover:text-white underline">Back to Dashboard</a>
+{% endblock %}
